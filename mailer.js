@@ -37,7 +37,11 @@ const sendTaskEmail = (data) => {
       .join(", ")}</p>
     <a href="https://plane.metaborong.com/metaborong/projects/${
       data.project
-    }/issues/${data.id}" target="_blank">View Task →</a>
+    }/issues/${
+    data.id
+  }" style="line-height:100%;text-decoration:none;display:inline-block;max-width:100%;color:#ffffff;background-color:#141313;border-color:#141313;padding:12px 34px;border-width:2px;border-style:solid;font-size:14px;font-weight:500;border-radius:9999px" target="_blank">
+                      View Task →
+                    </a>
     <footer>
       <p>&copy; ${new Date().getFullYear()} Metaborong. All rights reserved.</p>
     </footer>
@@ -48,7 +52,7 @@ const sendTaskEmail = (data) => {
 
   const mailOptions = {
     from: "rohit@metaborong.com",
-    to: assigneeEmails, // This will send the email to all assignees
+    to: assigneeEmails,
     subject: `New Task Assigned - ${data.id}`,
     html,
   };
