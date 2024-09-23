@@ -55,7 +55,7 @@ New Task Assigned To ${data.assignees
     .join(", ")}
 
 Task Name: ${data.name}
-Description: ${data.description || "No description provided"}
+Description: ${data.description_stripped || "No description provided"}
 
 Priority: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
 
