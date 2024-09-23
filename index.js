@@ -2,7 +2,7 @@ require("dotenv").config();
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { sendTaskEmail } = require("./mailer");
+const { sendTaskNotification } = require("./mailer");
 const { verifySignature } = require("./verifySignature");
 
 const app = express();
@@ -21,7 +21,7 @@ app.post("/webhook", (req, res) => {
   const { event, action, data } = req.body;
 
   if (event === "issue" && action === "updated") {
-    sendTaskEmail(data)
+    sendTaskNotification(data)
       .then(() => {
         res.sendStatus(200);
       })

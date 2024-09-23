@@ -1,3 +1,4 @@
+const axios = require("axios");
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
@@ -8,7 +9,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const sendTaskEmail = (data) => {
+const sendTaskNotification = (data) => {
   const html = `
 <!DOCTYPE html>
 <html lang="en">
@@ -48,6 +49,28 @@ const sendTaskEmail = (data) => {
   </body>
 </html>`;
 
+  const text = `
+New Task Assigned To ${data.assignees
+    .map((assignee) => `${assignee.first_name} ${assignee.last_name}`)
+    .join(", ")}
+
+Task Name: ${data.name}
+Description: ${data.description_text || "No description provided"}
+
+Priority: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
+
+Due Date: ${data.target_date || "No due date"}
+
+Assignee(s): ${data.assignees
+    .map((assignee) => `${assignee.first_name} ${assignee.last_name}`)
+    .join(", ")}
+
+View Task: https://plane.metaborong.com/metaborong/projects/${
+    data.project
+  }/issues/${data.id}
+
+  `;
+
   const assigneeEmails = data.assignees.map((assignee) => assignee.email);
 
   const mailOptions = {
@@ -55,9 +78,17 @@ const sendTaskEmail = (data) => {
     to: assigneeEmails,
     subject: `New Task Assigned - ${data.id}`,
     html,
+    text,
   };
+
+  axios.post(
+    "https://discord.com/api/webhooks/1282573614620610580/5t7npSgT2I86VjKtlIpvVhf0xvVWrqGSnfJ6OWUUVVnLigVN2p1Fq6X_twhSWopyW-nS",
+    {
+      content: text,
+    }
+  );
 
   return transporter.sendMail(mailOptions);
 };
 
-module.exports = { sendTaskEmail };
+module.exports = { sendTaskNotification };
