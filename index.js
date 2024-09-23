@@ -20,7 +20,11 @@ app.post("/webhook", (req, res) => {
 
   const { event, action, data } = req.body;
 
-  if (event === "issue" && action === "updated") {
+  if (
+    event === "issue" &&
+    action === "updated" &&
+    data.assignees.length !== 0
+  ) {
     sendTaskNotification(data)
       .then(() => {
         res.sendStatus(200);
