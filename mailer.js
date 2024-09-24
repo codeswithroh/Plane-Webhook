@@ -1,5 +1,6 @@
 const axios = require("axios");
 const nodemailer = require("nodemailer");
+const discordUserMapping = require("./discordMapping");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -50,25 +51,23 @@ const sendTaskNotification = (data) => {
 </html>`;
 
   const text = `
-New Task Assigned To ${data.assignees
-    .map((assignee) => `${assignee.first_name} ${assignee.last_name}`)
-    .join(", ")}
+**New Task Assigned To ${data.assignees
+    .map((assignee) => `- <@${discordUserMapping[assignee.email]}>`)
+    .join(" ")}**
 
-Task Name: ${data.name}
-Description: ${data.description_stripped || "No description provided"}
+**Task Name**: ${data.name}
+**Description**: ${data.description_stripped || "No description provided"}
+**Priority**: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
+**Due Date**: ${data.target_date || "No due date"}
 
-Priority: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
+**Assignee(s)**:
+${data.assignees
+  .map((assignee) => `- <@${discordUserMapping[assignee.email]}>`)
+  .join("\n")}
 
-Due Date: ${data.target_date || "No due date"}
-
-Assignee(s): ${data.assignees
-    .map((assignee) => `${assignee.first_name} ${assignee.last_name}`)
-    .join(", ")}
-
-View Task: https://plane.metaborong.com/metaborong/projects/${
+**View Task**: https://plane.metaborong.com/metaborong/projects/${
     data.project
   }/issues/${data.id}
-
   `;
 
   const assigneeEmails = data.assignees.map((assignee) => assignee.email);
