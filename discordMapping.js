@@ -16,8 +16,9 @@ const discordUserMapping = {
   "supriya@metaborong.com": "844219391616221194",
   "rayoti@metaborong.com": "757866378710614126",
   "somnath@metaborong.com": "753562953470705724",
-  "abhishek@metaborong.com": "758226000894754817",
+  "poddar@metaborong.com": "758226000894754817",
   "barnana@metaborong.com": "551358297593085962",
+  "harshil@metaborong.com": "1131154430977388594",
 };
 
 module.exports = discordUserMapping;
