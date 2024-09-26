@@ -59,7 +59,7 @@ const sendTaskNotification = (data) => {
           discordUserMapping[assignee.email]
             ? `<@${discordUserMapping[assignee.email]}>`
             : `${assignee.first_name} ${assignee.last_name}`
-        }>}`
+        }`
     )
     .join(" ")}**
 
@@ -77,7 +77,7 @@ ${data.assignees
         discordUserMapping[assignee.email]
           ? `<@${discordUserMapping[assignee.email]}>`
           : `${assignee.first_name} ${assignee.last_name}`
-      }>}`
+      }`
   )
   .join("\n")}
 
