@@ -53,18 +53,32 @@ const sendTaskNotification = (data) => {
 
   const text = `
 **New Task Assigned To ${data.assignees
-    .map((assignee) => `- <@${discordUserMapping[assignee.email]}>`)
+    .map(
+      (assignee) =>
+        `- ${
+          discordUserMapping[assignee.email]
+            ? `<@${discordUserMapping[assignee.email]}`
+            : `${assignee.first_name} ${assignee.last_name}`
+        }>}`
+    )
     .join(" ")}**
 
 **Project Name**: ${projectMapping[data.project]}
 **Task Name**: ${data.name}
 **Description**: ${data.description_stripped || "No description provided"}
+**Progress**: ${data.state.name}
 **Priority**: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
 **Due Date**: ${data.target_date || "No due date"}
-
 **Assignee(s)**:
 ${data.assignees
-  .map((assignee) => `- <@${discordUserMapping[assignee.email]}>`)
+  .map(
+    (assignee) =>
+      `- ${
+        discordUserMapping[assignee.email]
+          ? `<@${discordUserMapping[assignee.email]}`
+          : `${assignee.first_name} ${assignee.last_name}`
+      }>}`
+  )
   .join("\n")}
 
 **View Task**: https://plane.metaborong.com/metaborong/projects/${
@@ -82,14 +96,14 @@ ${data.assignees
     text,
   };
 
-  axios.post(
+  return axios.post(
     "https://discord.com/api/webhooks/1282573614620610580/5t7npSgT2I86VjKtlIpvVhf0xvVWrqGSnfJ6OWUUVVnLigVN2p1Fq6X_twhSWopyW-nS",
     {
       content: text,
     }
   );
 
-  return transporter.sendMail(mailOptions);
+  // return transporter.sendMail(mailOptions);
 };
 
 module.exports = { sendTaskNotification };
