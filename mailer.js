@@ -1,6 +1,7 @@
 const axios = require("axios");
 const nodemailer = require("nodemailer");
 const discordUserMapping = require("./discordMapping");
+const projectMapping = require("./projectMapping");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -55,6 +56,7 @@ const sendTaskNotification = (data) => {
     .map((assignee) => `- <@${discordUserMapping[assignee.email]}>`)
     .join(" ")}**
 
+**Project Name**: ${projectMapping[data.project]}
 **Task Name**: ${data.name}
 **Description**: ${data.description_stripped || "No description provided"}
 **Priority**: ${data.priority === "urgent" ? "Urgent 🚨" : data.priority}
