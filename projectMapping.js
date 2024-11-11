@@ -10,6 +10,7 @@ const projectMapping = {
   "249eab54-bcf5-4ea4-9ef3-dc10c14f0763": "Kandola",
   "50bbb0f1-689f-4574-bb84-3fefb9f1d479": "Create Protocol",
   "848cee02-63dc-431f-8bf1-af810d124996": "Defiverse",
+  "516386dd-1f3d-427f-9264-1c2aeb3d3183": "NDA AI",
 };
 
 module.exports = projectMapping;
